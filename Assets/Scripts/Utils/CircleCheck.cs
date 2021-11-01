@@ -1,9 +1,9 @@
-﻿using UnityEngine;
-using UnityEngine.Serialization;
+﻿using Interfaces;
+using UnityEngine;
 
 namespace Utils
 {
-    public class CircleCheck : MonoBehaviour
+    public class CircleCheck : MonoBehaviour, ICheck
     {
         [SerializeField]
         private float radius = 0.05f;
@@ -12,7 +12,7 @@ namespace Utils
         private LayerMask collisionMask;
 
         [SerializeField]
-        private int id = 0;
+        private int id;
 
         public bool Check()
         {
@@ -26,9 +26,8 @@ namespace Utils
 
         private void OnDrawGizmos()
         {
-            // Draw a yellow sphere at the transform's position
             Gizmos.color = Color.red;
-            Gizmos.DrawSphere(transform.position, radius);
+            Gizmos.DrawWireSphere(transform.position, radius);
         }
     }
 }

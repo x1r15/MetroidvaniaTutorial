@@ -9,9 +9,17 @@ namespace Behaviours.StateMachines.PlatformMovementStates
         private static readonly int IsWalking = Animator.StringToHash("IsWalking");
         private static readonly int IsGrounded = Animator.StringToHash("IsGrounded");
         public WalkState(PlatformMovement movement) : base(movement) {}
-        public void Init() {}
 
-        public void Clean() {}
+        public void Init()
+        {
+            _animator.SetBool(IsGrounded, true);
+            _animator.SetBool(IsWalking, true);
+        }
+
+        public void Clean()
+        {
+            _animator.SetBool(IsWalking, false);
+        }
 
         public void Update()
         {
@@ -38,6 +46,7 @@ namespace Behaviours.StateMachines.PlatformMovementStates
 
             if (IsRequested(InputAction.Jump))
             {
+                ClearRequest(InputAction.Jump);
                 return new JumpState(_movement);
             }
 
@@ -49,10 +58,9 @@ namespace Behaviours.StateMachines.PlatformMovementStates
             return this;
         }
 
-        public void ApplyAnimation()
+        public bool IsEnabled()
         {
-            _animator.SetBool(IsWalking, _inputProvider.GetAxisInput(Axis.X) != 0);
-            _animator.SetBool(IsGrounded, _movement.IsGrounded());
+            return true;
         }
     }
 }

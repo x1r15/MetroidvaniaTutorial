@@ -7,6 +7,6 @@
         public void Update();
         public void FixedUpdate();
         public IState MonitorForChange();
-        public void ApplyAnimation();
+        public bool IsEnabled();
     }
 }

@@ -10,9 +10,16 @@ namespace Behaviours.StateMachines.PlatformMovementStates
         private static readonly int IsGrounded = Animator.StringToHash("IsGrounded");
         public FallingState(PlatformMovement movement) : base(movement) {}
 
-        public void Init() {}
+        public void Init()
+        {
+            _animator.SetBool(IsFalling, true);
+            _animator.SetBool(IsGrounded, false);
+        }
 
-        public void Clean() {}
+        public void Clean()
+        {
+            _animator.SetBool(IsFalling, false);
+        }
 
         public void Update() {}
 
@@ -41,11 +48,9 @@ namespace Behaviours.StateMachines.PlatformMovementStates
 
             return this;
         }
-
-        public void ApplyAnimation()
+        public bool IsEnabled()
         {
-            _animator.SetBool(IsGrounded, _movement.IsGrounded());
-            _animator.SetBool(IsFalling, !_movement.IsGrounded() && _rigidbody.velocity.y < 0);
+            return true;
         }
     }
 }

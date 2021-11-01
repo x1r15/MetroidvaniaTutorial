@@ -7,12 +7,14 @@ namespace Behaviours.StateMachines.PlatformMovementStates
     public class IdleState : StateBase, IState
     {
         private static readonly int IsGrounded = Animator.StringToHash("IsGrounded");
-        private static readonly int IsWalking = Animator.StringToHash("IsWalking");
-        private static readonly int IsFalling = Animator.StringToHash("IsFalling");
 
         public IdleState(PlatformMovement movement) :
             base(movement) {}
-        public void Init() {}
+
+        public void Init()
+        {
+            _animator.SetBool(IsGrounded, true);
+        }
 
         public void Clean() {}
 
@@ -44,11 +46,9 @@ namespace Behaviours.StateMachines.PlatformMovementStates
             return this;
         }
 
-        public void ApplyAnimation()
+        public bool IsEnabled()
         {
-            _animator.SetBool(IsGrounded, _movement.IsGrounded());
-            _animator.SetBool(IsFalling, false);
-            _animator.SetBool(IsWalking, false);
+            return true;
         }
     }
 }

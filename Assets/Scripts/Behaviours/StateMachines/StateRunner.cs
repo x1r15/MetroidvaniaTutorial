@@ -1,5 +1,4 @@
 ﻿using Interfaces;
-using UnityEngine;
 
 namespace Behaviours.StateMachines
 {
@@ -17,17 +16,14 @@ namespace Behaviours.StateMachines
         public void FixedUpdate()
         {
             _currentState.FixedUpdate();
-            _currentState.ApplyAnimation();
 
             _requestedState = _currentState.MonitorForChange();
-            if (_requestedState != _currentState)
+            if (_requestedState != _currentState && _requestedState.IsEnabled())
             {
                 _currentState.Clean();
                 _currentState = _requestedState;
                 _requestedState.Init();
             }
-
-            Debug.Log(_currentState.GetType());
         }
 
         public void Update()

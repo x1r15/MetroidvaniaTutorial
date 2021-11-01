@@ -31,5 +31,10 @@ namespace Behaviours.StateMachines.PlatformMovementStates
         {
             return _registeredActions.Contains(action);
         }
+
+        public void ClearRequest(InputAction action)
+        {
+            _registeredActions.Remove(action);
+        }
     }
 }

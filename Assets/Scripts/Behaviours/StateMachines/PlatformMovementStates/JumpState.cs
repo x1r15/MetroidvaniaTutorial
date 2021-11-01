@@ -20,12 +20,16 @@ namespace Behaviours.StateMachines.PlatformMovementStates
         public void Init()
         {
             _config = _movement.GetConfig();
-            _animator.SetTrigger(Jump);
             _movement.Jump();
             _shallowJumpInitialized = false;
+
+            _animator.SetTrigger(Jump);
         }
 
-        public void Clean() {}
+        public void Clean()
+        {
+            _animator.ResetTrigger(Jump);
+        }
 
         public void Update() {}
 
@@ -33,6 +37,7 @@ namespace Behaviours.StateMachines.PlatformMovementStates
         {
             ApplyShallowJump();
             _movement.ApplyHorizontalMovement(_movement.GetWalkSpeed());
+            _animator.SetBool(IsGrounded, _movement.IsGrounded());
         }
 
         public IState MonitorForChange()
@@ -45,10 +50,9 @@ namespace Behaviours.StateMachines.PlatformMovementStates
             return this;
         }
 
-        public void ApplyAnimation()
+        public bool IsEnabled()
         {
-            _animator.SetBool(IsGrounded, _movement.IsGrounded());
-            _animator.SetBool(IsGrounded, _movement.IsGrounded());
+            return true;
         }
 
         private void ApplyShallowJump()
@@ -63,6 +67,5 @@ namespace Behaviours.StateMachines.PlatformMovementStates
                 _shallowJumpInitialized = true;
             }
         }
-
     }
 }

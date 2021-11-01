@@ -6,7 +6,6 @@ using Enums;
 using Extensions;
 using Interfaces;
 using UnityEngine;
-using Utils;
 
 namespace Behaviours
 {
@@ -19,10 +18,9 @@ namespace Behaviours
         private Animator _animator;
         private Rigidbody2D _rigidbody;
         private IInputProvider _inputProvider;
-        private CircleCheck _groundCheck;
-        private CircleCheck _frontCheck;
+        private ICheck _groundCheck;
+        private ICheck _frontCheck;
         private StateRunner _stateRunner;
-
 
         [SerializeField]
         private float walkSpeed;
@@ -137,7 +135,7 @@ namespace Behaviours
             _inputProvider = GetComponent<IInputProvider>();
             _stateRunner = new StateRunner(new IdleState(this));
 
-            var circleChecks = GetComponentsInChildren<CircleCheck>();
+            var circleChecks = GetComponentsInChildren<ICheck>();
             _groundCheck = circleChecks.First(c => c.GetId() == GroundCheckId);
             _frontCheck = circleChecks.First(c => c.GetId() == FrontCheckId);
         }

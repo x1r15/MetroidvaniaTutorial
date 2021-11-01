@@ -7,8 +7,6 @@ namespace Behaviours.StateMachines.PlatformMovementStates
     public class WallJumpState : StateBase, IState
     {
         private static readonly int Jump = Animator.StringToHash("Jump");
-        private static readonly int IsGrounded = Animator.StringToHash("IsGrounded");
-        private static readonly int IsFalling = Animator.StringToHash("IsFalling");
         public WallJumpState(PlatformMovement movement) : base(movement) {}
 
         public void Init()
@@ -19,7 +17,10 @@ namespace Behaviours.StateMachines.PlatformMovementStates
             _animator.SetTrigger(Jump);
         }
 
-        public void Clean() {}
+        public void Clean()
+        {
+            _animator.ResetTrigger(Jump);
+        }
 
         public void Update() {}
 
@@ -50,9 +51,9 @@ namespace Behaviours.StateMachines.PlatformMovementStates
             return this;
         }
 
-        public void ApplyAnimation()
+        public bool IsEnabled()
         {
-            _animator.SetBool(IsGrounded, _movement.IsGrounded());
+            return _movement.GetConfig().IsEnabled(PlatformMovementFeature.WallJump);
         }
     }
 }
